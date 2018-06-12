@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.views import generic
+from django.views.decorators.cache import cache_page
 
 from .forms import AddForm
 from .models import Question, Choice
@@ -53,6 +54,7 @@ def add(request):
     return HttpResponse(result)
 
 
+@cache_page(60 * 2)
 def home(request):
     if request.method == 'POST':
         form = AddForm(request.POST)
